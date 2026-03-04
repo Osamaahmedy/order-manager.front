@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/captured-logo.png";
 
@@ -23,7 +23,7 @@ const Navbar = ({ lang, onToggleLang }: NavbarProps) => {
     <motion.nav
       initial={{ y: -80 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-b border-border"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
@@ -56,32 +56,37 @@ const Navbar = ({ lang, onToggleLang }: NavbarProps) => {
         </button>
       </div>
 
-      {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="lg:hidden border-t border-border bg-card"
-        >
-          <div className="flex flex-col p-4 gap-3">
-            {items.map((item, i) => (
-              <a
-                key={i}
-                href={`#${sectionIds[i]}`}
-                onClick={() => setMobileOpen(false)}
-                className="text-sm font-medium text-muted-foreground hover:text-primary py-2"
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="lg:hidden border-t border-border bg-card overflow-hidden"
+          >
+            <div className="flex flex-col p-4 gap-3">
+              {items.map((item, i) => (
+                <a
+                  key={i}
+                  href={`#${sectionIds[i]}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-sm font-medium text-muted-foreground hover:text-primary py-2"
+                >
+                  {item}
+                </a>
+              ))}
+              <button
+                onClick={onToggleLang}
+                className="text-sm font-semibold text-primary border border-primary rounded-md px-3 py-2 w-fit"
               >
-                {item}
-              </a>
-            ))}
-            <button
-              onClick={onToggleLang}
-              className="text-sm font-semibold text-primary border border-primary rounded-md px-3 py-2 w-fit"
-            >
-              {lang === "ar" ? "EN" : "عربي"}
-            </button>
-          </div>
-        </motion.div>
-      )}
+                {lang === "ar" ? "EN" : "عربي"}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

@@ -35,20 +35,23 @@ const SectorsSection = ({ lang }: { lang: "ar" | "en" }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
           className="text-center mb-14"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">{t.title}</span>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mt-2">{t.subtitle}</h2>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mt-2">
+            {t.subtitle}
+          </h2>
         </motion.div>
 
         <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
           {t.sectors.map((s, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.08, duration: 0.35 }}
               className="flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 rounded-xl px-6 py-4 hover:bg-primary-foreground/20 transition-colors"
             >
               <s.icon className="text-primary" size={24} />

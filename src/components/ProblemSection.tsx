@@ -52,46 +52,40 @@ const content = {
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12 },
+    transition: { staggerChildren: 0.07 },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, x: -30 },
+  hidden: { opacity: 0, x: -20 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
+    transition: { duration: 0.4, ease: "easeOut" as const },
   },
 };
 
 const solutionCardVariants = {
-  hidden: { opacity: 0, x: 30 },
+  hidden: { opacity: 0, x: 20 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
-  },
-};
-
-const iconVariants = {
-  hidden: { scale: 0, rotate: -180 },
-  visible: {
-    scale: 1,
-    rotate: 0,
-    transition: { type: "spring" as const, stiffness: 200, damping: 15, delay: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const },
   },
 };
 
 const ProblemSection = ({ lang }: { lang: "ar" | "en" }) => {
   const t = content[lang];
+
   return (
-    <section className="py-24 bg-secondary/5 relative overflow-hidden" dir={lang === "ar" ? "rtl" : "ltr"}>
+    <section
+      className="py-24 bg-secondary/5 relative overflow-hidden"
+      dir={lang === "ar" ? "rtl" : "ltr"}
+    >
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 start-10 w-72 h-72 rounded-full bg-destructive/5 blur-3xl" />
         <div className="absolute bottom-20 end-10 w-96 h-96 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-green-500/3 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -103,18 +97,16 @@ const ProblemSection = ({ lang }: { lang: "ar" | "en" }) => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
               className="text-center mb-10"
             >
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 text-destructive font-semibold text-sm uppercase tracking-wider bg-destructive/10 px-4 py-1.5 rounded-full mb-4"
-              >
+              <span className="inline-flex items-center gap-2 text-destructive font-semibold text-sm uppercase tracking-wider bg-destructive/10 px-4 py-1.5 rounded-full mb-4">
                 <AlertTriangle size={16} />
                 {t.problemTitle}
-              </motion.span>
-              <h2 className="font-heading text-2xl md:text-4xl font-bold text-foreground mt-2">{t.problemSubtitle}</h2>
+              </span>
+              <h2 className="font-heading text-2xl md:text-4xl font-bold text-foreground mt-2">
+                {t.problemSubtitle}
+              </h2>
             </motion.div>
 
             <motion.div
@@ -130,24 +122,18 @@ const ProblemSection = ({ lang }: { lang: "ar" | "en" }) => {
                   <motion.div
                     key={i}
                     variants={cardVariants}
-                    whileHover={{ x: lang === "ar" ? -6 : 6, transition: { duration: 0.2 } }}
-                    className="group relative bg-card rounded-2xl p-5 ps-6 shadow-card border border-border hover:shadow-card-hover hover:border-destructive/30 transition-all duration-300 cursor-default overflow-hidden flex items-center gap-5"
+                    className="group relative bg-card rounded-2xl p-5 ps-6 shadow-card border border-border hover:shadow-card-hover hover:border-destructive/30 hover:-translate-x-1 rtl:hover:translate-x-1 transition-all duration-200 cursor-default overflow-hidden flex items-center gap-5"
                   >
-                    {/* Red side accent bar */}
-                    <div className="absolute top-0 bottom-0 start-0 w-1 bg-destructive/40 group-hover:bg-destructive group-hover:w-1.5 transition-all duration-300 rounded-full" />
+                    <div className="absolute top-0 bottom-0 start-0 w-1 bg-destructive/40 group-hover:bg-destructive group-hover:w-1.5 transition-all duration-200 rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-destructive/0 group-hover:from-destructive/[0.04] group-hover:to-transparent transition-all duration-300 rounded-2xl" />
 
-                    {/* Subtle gradient background on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-destructive/0 to-destructive/0 group-hover:from-destructive/[0.04] group-hover:to-transparent transition-all duration-500 rounded-2xl" />
-
-                    {/* Animated icon */}
-                    <motion.div
-                      variants={iconVariants}
-                      className="relative z-10 w-12 h-12 min-w-[3rem] rounded-xl bg-destructive/10 group-hover:bg-destructive/20 flex items-center justify-center transition-colors duration-300"
-                    >
+                    <div className="relative z-10 w-12 h-12 min-w-[3rem] rounded-xl bg-destructive/10 group-hover:bg-destructive/20 flex items-center justify-center transition-colors duration-200">
                       <Icon className="text-destructive" size={22} />
-                    </motion.div>
+                    </div>
 
-                    <p className="relative z-10 text-foreground font-semibold leading-relaxed">{problem}</p>
+                    <p className="relative z-10 text-foreground font-semibold leading-relaxed">
+                      {problem}
+                    </p>
                   </motion.div>
                 );
               })}
@@ -160,18 +146,16 @@ const ProblemSection = ({ lang }: { lang: "ar" | "en" }) => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
               className="text-center mb-10"
             >
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-500/10 px-4 py-1.5 rounded-full mb-4"
-              >
+              <span className="inline-flex items-center gap-2 text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-500/10 px-4 py-1.5 rounded-full mb-4">
                 <CheckCircle2 size={16} />
                 {t.solutionTitle}
-              </motion.span>
-              <h2 className="font-heading text-2xl md:text-4xl font-bold text-foreground mt-2">{t.solutionSubtitle}</h2>
+              </span>
+              <h2 className="font-heading text-2xl md:text-4xl font-bold text-foreground mt-2">
+                {t.solutionSubtitle}
+              </h2>
             </motion.div>
 
             <motion.div
@@ -187,24 +171,18 @@ const ProblemSection = ({ lang }: { lang: "ar" | "en" }) => {
                   <motion.div
                     key={i}
                     variants={solutionCardVariants}
-                    whileHover={{ x: lang === "ar" ? 6 : -6, transition: { duration: 0.2 } }}
-                    className="group relative bg-card rounded-2xl p-5 ps-6 shadow-card border border-border hover:shadow-card-hover hover:border-green-500/30 transition-all duration-300 cursor-default overflow-hidden flex items-center gap-5"
+                    className="group relative bg-card rounded-2xl p-5 ps-6 shadow-card border border-border hover:shadow-card-hover hover:border-green-500/30 hover:translate-x-1 rtl:hover:-translate-x-1 transition-all duration-200 cursor-default overflow-hidden flex items-center gap-5"
                   >
-                    {/* Green side accent bar */}
-                    <div className="absolute top-0 bottom-0 start-0 w-1 bg-green-500/40 group-hover:bg-green-500 group-hover:w-1.5 transition-all duration-300 rounded-full" />
+                    <div className="absolute top-0 bottom-0 start-0 w-1 bg-green-500/40 group-hover:bg-green-500 group-hover:w-1.5 transition-all duration-200 rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-500/0 group-hover:from-green-500/[0.04] group-hover:to-transparent transition-all duration-300 rounded-2xl" />
 
-                    {/* Subtle gradient background on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-500/0 to-green-500/0 group-hover:from-green-500/[0.04] group-hover:to-transparent transition-all duration-500 rounded-2xl" />
-
-                    {/* Animated icon */}
-                    <motion.div
-                      variants={iconVariants}
-                      className="relative z-10 w-12 h-12 min-w-[3rem] rounded-xl bg-green-500/10 group-hover:bg-green-500/20 flex items-center justify-center transition-colors duration-300"
-                    >
+                    <div className="relative z-10 w-12 h-12 min-w-[3rem] rounded-xl bg-green-500/10 group-hover:bg-green-500/20 flex items-center justify-center transition-colors duration-200">
                       <Icon className="text-green-600" size={22} />
-                    </motion.div>
+                    </div>
 
-                    <p className="relative z-10 text-foreground font-semibold leading-relaxed">{solution}</p>
+                    <p className="relative z-10 text-foreground font-semibold leading-relaxed">
+                      {solution}
+                    </p>
                   </motion.div>
                 );
               })}

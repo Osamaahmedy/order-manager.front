@@ -34,21 +34,21 @@ const content = {
 const stepVariants = {
   hidden: (i: number) => ({
     opacity: 0,
-    x: i % 2 === 0 ? -60 : 60,
+    x: i % 2 === 0 ? -50 : 50,
   }),
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const },
+    transition: { duration: 0.5, ease: "easeOut" as const },
   },
 };
 
 const mobileStepVariants = {
-  hidden: { opacity: 0, x: -40 },
+  hidden: { opacity: 0, x: -30 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
+    transition: { duration: 0.4, ease: "easeOut" as const },
   },
 };
 
@@ -57,7 +57,11 @@ const HowItWorksSection = ({ lang }: { lang: "ar" | "en" }) => {
   const isRtl = lang === "ar";
 
   return (
-    <section id="how-it-works" className="py-24 bg-background relative overflow-hidden" dir={isRtl ? "rtl" : "ltr"}>
+    <section
+      id="how-it-works"
+      className="py-24 bg-background relative overflow-hidden"
+      dir={isRtl ? "rtl" : "ltr"}
+    >
       {/* Decorative */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 start-0 w-64 h-64 rounded-full bg-primary/5 blur-3xl" />
@@ -69,21 +73,24 @@ const HowItWorksSection = ({ lang }: { lang: "ar" | "en" }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
           className="text-center mb-16"
         >
           <motion.img
             src={capturedLogo}
             alt="CapTured Logo"
             className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 object-contain"
-            initial={{ opacity: 0, scale: 0.6 }}
+            initial={{ opacity: 0, scale: 0.7 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           />
           <span className="inline-block text-primary font-semibold text-sm uppercase tracking-wider bg-primary/10 px-4 py-1.5 rounded-full mb-4">
             {t.title}
           </span>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mt-2">{t.subtitle}</h2>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mt-2">
+            {t.subtitle}
+          </h2>
         </motion.div>
 
         <div className="max-w-5xl mx-auto relative">
@@ -94,6 +101,7 @@ const HowItWorksSection = ({ lang }: { lang: "ar" | "en" }) => {
             const isLeft = i % 2 === 0;
             return (
               <div key={i} className="relative mb-6 last:mb-0">
+
                 {/* Desktop layout */}
                 <motion.div
                   custom={isRtl ? (isLeft ? 1 : 0) : i}
@@ -103,28 +111,19 @@ const HowItWorksSection = ({ lang }: { lang: "ar" | "en" }) => {
                   viewport={{ once: true, margin: "-30px" }}
                   className={`hidden md:flex items-center ${isLeft ? "flex-row" : "flex-row-reverse"}`}
                 >
-                  {/* Content side */}
+                  {/* Content card — CSS hover only */}
                   <div className={`w-[calc(50%-2rem)] ${isLeft ? "text-end" : "text-start"}`}>
-                    <motion.div
-                      whileHover={{ scale: 1.03, y: -4 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className="inline-block bg-card rounded-2xl p-5 shadow-card border border-border hover:shadow-card-hover hover:border-primary/30 transition-all duration-300"
-                    >
+                    <div className="inline-block bg-card rounded-2xl p-5 shadow-card border border-border hover:shadow-card-hover hover:border-primary/30 hover:-translate-y-1 transition-all duration-200 cursor-default">
                       <h3 className="font-heading font-bold text-lg text-foreground mb-1">{step.title}</h3>
                       <p className="text-muted-foreground text-sm">{step.desc}</p>
-                    </motion.div>
+                    </div>
                   </div>
 
-                  {/* Center icon */}
+                  {/* Center icon — CSS hover only */}
                   <div className="mx-4 relative z-10">
-                    <motion.div
-                      whileHover={{ scale: 1.2, rotate: 360 }}
-                      transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                      className="w-14 h-14 rounded-full gradient-primary flex items-center justify-center shadow-lg ring-4 ring-background"
-                    >
+                    <div className="w-14 h-14 rounded-full gradient-primary flex items-center justify-center shadow-lg ring-4 ring-background hover:scale-110 transition-transform duration-200">
                       <step.icon className="text-primary-foreground" size={22} />
-                    </motion.div>
-                    {/* Step number */}
+                    </div>
                     <span className="absolute -bottom-1 -end-1 w-6 h-6 rounded-full bg-foreground text-background text-xs font-bold flex items-center justify-center">
                       {i + 1}
                     </span>
@@ -149,7 +148,6 @@ const HowItWorksSection = ({ lang }: { lang: "ar" | "en" }) => {
                     <span className="absolute -bottom-1 -end-1 w-5 h-5 rounded-full bg-foreground text-background text-[10px] font-bold flex items-center justify-center">
                       {i + 1}
                     </span>
-                    {/* Connecting line for mobile */}
                     {i < t.steps.length - 1 && (
                       <div className="absolute top-14 start-1/2 -translate-x-1/2 w-px h-8 bg-primary/20" />
                     )}
@@ -159,6 +157,7 @@ const HowItWorksSection = ({ lang }: { lang: "ar" | "en" }) => {
                     <p className="text-muted-foreground text-sm">{step.desc}</p>
                   </div>
                 </motion.div>
+
               </div>
             );
           })}

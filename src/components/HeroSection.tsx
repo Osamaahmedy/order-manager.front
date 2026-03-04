@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { Shield, MapPin, Camera, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import heroImage from "@/assets/hero-image.jpg";
 import appLoginScreen from "@/assets/app-login-screen.png";
@@ -28,12 +28,6 @@ const content = {
     trial: "Start Free Trial",
   },
 };
-
-const floatingIcons = [
-  { Icon: Shield, size: 20, className: "top-[18%] start-[8%]", delay: 0 },
-  { Icon: MapPin, size: 18, className: "top-[30%] end-[12%]", delay: 1.2 },
-  { Icon: Camera, size: 22, className: "bottom-[25%] start-[15%]", delay: 0.6 },
-];
 
 // ─── iPhone Mockup ────────────────────────────────────────────────────────────
 const IPhoneMockup = ({ children }: { children: React.ReactNode }) => (
@@ -77,21 +71,11 @@ const LaptopMockup = ({ children }: { children: React.ReactNode }) => (
 const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
   const t = content[lang];
   const isRtl = lang === "ar";
-  const sectionRef = useRef<HTMLElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [slides, setSlides] = useState<SliderItem[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(1);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   // ─── Fetch Slides ───────────────────────────────────────────────────────────
   useEffect(() => {
@@ -124,7 +108,9 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
 
   useEffect(() => {
     resetTimer(slides.length);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [slides.length]);
 
   const goTo = (index: number) => {
@@ -154,14 +140,12 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
 
   return (
     <section
-      ref={sectionRef}
       className="relative min-h-screen flex items-center overflow-hidden gradient-hero"
       dir={isRtl ? "rtl" : "ltr"}
     >
-      {/* ── Background Layer: Slider OR static heroImage ── */}
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
+      {/* ── Background Layer ── */}
+      <div className="absolute inset-0">
         {slides.length > 0 ? (
-          // ✅ السلايدر كباك جراوند كامل
           <>
             <AnimatePresence initial={false} custom={direction}>
               <motion.img
@@ -173,13 +157,12 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.9, ease: "easeInOut" }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{ willChange: "transform, opacity" }}
               />
             </AnimatePresence>
 
-            {/* Dark overlay فوق صور السلايدر */}
             <div className="absolute inset-0 bg-black/55" />
             <div className="absolute inset-0 gradient-hero opacity-75" />
 
@@ -233,7 +216,6 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
             )}
           </>
         ) : (
-          // Fallback: الصورة الثابتة الأصلية لو ما في سلايدر
           <>
             <img
               src={heroImage}
@@ -243,38 +225,10 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
             <div className="absolute inset-0 gradient-hero opacity-80" />
           </>
         )}
-      </motion.div>
-
-      {/* ── Animated particles ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1.5 h-1.5 rounded-full bg-primary-foreground/20"
-            style={{ top: `${15 + i * 14}%`, left: `${10 + i * 15}%` }}
-            animate={{ y: [0, -30, 0], x: [0, 15, 0], opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 4 + i * 0.5, repeat: Infinity, delay: i * 0.7, ease: "easeInOut" }}
-          />
-        ))}
       </div>
 
-      {/* ── Floating icons ── */}
-      {floatingIcons.map(({ Icon, size, className, delay }, i) => (
-        <motion.div
-          key={i}
-          className={`absolute ${className} pointer-events-none`}
-          animate={{ y: [0, -15, 0], rotate: [0, 8, -8, 0], opacity: [0.15, 0.35, 0.15] }}
-          transition={{ duration: 5, repeat: Infinity, delay, ease: "easeInOut" }}
-        >
-          <Icon size={size} className="text-primary-foreground/25" />
-        </motion.div>
-      ))}
-
       {/* ── Main Content ── */}
-      <motion.div
-        className="container mx-auto px-4 relative z-10 pt-24 pb-16"
-        style={{ y: contentY, opacity }}
-      >
+      <div className="container mx-auto px-4 relative z-10 pt-24 pb-16">
         <div
           className={`flex flex-col ${
             isRtl ? "md:flex-row-reverse" : "md:flex-row"
@@ -282,14 +236,12 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
         >
           {/* Text */}
           <div
-            className={`flex-1 ${
-              isRtl ? "text-right" : "text-left"
-            } text-center md:text-start`}
+            className={`flex-1 ${isRtl ? "text-right" : "text-left"} text-center md:text-start`}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.6, filter: "blur(10px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
               <span className="inline-block text-sm font-semibold tracking-widest uppercase mb-4 px-4 py-1.5 rounded-full border border-primary/30 text-primary bg-primary/10 backdrop-blur-sm">
                 {t.subtitle}
@@ -297,32 +249,32 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.15, ease: "easeOut" }}
               className="font-heading text-3xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground leading-tight mb-6"
             >
               {t.title}
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.28 }}
               className="text-base md:text-lg text-primary-foreground/80 mb-10 max-w-xl leading-relaxed"
             >
               {t.desc}
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
             >
               <motion.a
                 href="#pricing"
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -12px hsl(195 100% 45% / 0.4)" }}
+                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="gradient-primary text-primary-foreground font-semibold px-8 py-4 rounded-lg shadow-hero transition-opacity text-lg"
               >
@@ -330,7 +282,7 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
               </motion.a>
               <motion.a
                 href="#features"
-                whileHover={{ scale: 1.05, backgroundColor: "hsl(0 0% 100% / 0.1)" }}
+                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="border border-primary-foreground/30 text-primary-foreground font-semibold px-8 py-4 rounded-lg transition-colors text-lg"
               >
@@ -341,9 +293,9 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
 
           {/* Device Mockups */}
           <motion.div
-            initial={{ opacity: 0, x: isRtl ? -60 : 60, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+            initial={{ opacity: 0, x: isRtl ? -50 : 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
             className="flex-1 flex items-end justify-center mt-8 md:mt-0 relative"
           >
             <div>
@@ -358,26 +310,22 @@ const HeroSection = ({ lang }: { lang: "ar" | "en" }) => {
             </div>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
 
       {/* ── Scroll indicator ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={{ delay: 0.9 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
       >
         <motion.div
-          animate={{ y: [0, 12, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2"
         >
           <div className="w-6 h-10 rounded-full border-2 border-primary-foreground/30 flex items-start justify-center p-1.5">
-            <motion.div
-              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="w-1.5 h-1.5 rounded-full bg-primary-foreground/60"
-            />
+            <div className="w-1.5 h-1.5 rounded-full bg-primary-foreground/60" />
           </div>
         </motion.div>
       </motion.div>

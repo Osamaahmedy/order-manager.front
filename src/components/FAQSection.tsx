@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
 
@@ -38,9 +38,9 @@ const FAQSection = ({ lang }: { lang: "ar" | "en" }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
           className="text-center mb-14"
         >
-          
           <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mt-2">{t.title}</h2>
           <p className="text-muted-foreground mt-3">{t.subtitle}</p>
         </motion.div>
@@ -52,7 +52,7 @@ const FAQSection = ({ lang }: { lang: "ar" | "en" }) => {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              transition={{ delay: i * 0.07, duration: 0.35 }}
               className="bg-background rounded-xl border border-border overflow-hidden"
             >
               <button
@@ -60,19 +60,31 @@ const FAQSection = ({ lang }: { lang: "ar" | "en" }) => {
                 className="w-full flex items-center justify-between p-5 text-start"
               >
                 <span className="font-heading font-semibold text-foreground flex-1">{faq.q}</span>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${open === i ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                  open === i
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground"
+                }`}>
                   {open === i ? <X size={16} /> : <Plus size={16} />}
                 </div>
               </button>
-              {open === i && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  className="px-5 pb-5"
-                >
-                  <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
-                </motion.div>
-              )}
+
+              <AnimatePresence initial={false}>
+                {open === i && (
+                  <motion.div
+                    key="answer"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-5 text-muted-foreground text-sm leading-relaxed">
+                      {faq.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>

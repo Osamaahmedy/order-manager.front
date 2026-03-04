@@ -141,11 +141,13 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
   return (
     <section id="pricing" className="py-24 bg-background" dir={isRtl ? "rtl" : "ltr"}>
       <div className="container mx-auto px-4">
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
           className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 text-primary font-semibold text-sm bg-primary/10 px-4 py-1.5 rounded-full mb-4">
@@ -156,7 +158,7 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
           <p className="text-muted-foreground mt-3 max-w-lg mx-auto">{t.subtitle}</p>
         </motion.div>
 
-        {/* Cards - Order: Enterprise, Business, Starter for RTL (reversed visually) */}
+        {/* Cards */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
           {t.plans.map((plan, i) => {
             const isPopular = i === 1;
@@ -166,10 +168,10 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.15, duration: 0.5 }}
+                transition={{ delay: i * 0.12, duration: 0.4 }}
                 className={`relative rounded-3xl p-8 flex flex-col transition-all duration-300 ${
                   isPopular
                     ? "bg-foreground text-background shadow-2xl md:scale-105 md:-my-4 z-10"
@@ -178,24 +180,17 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
               >
                 {/* Popular badge */}
                 {isPopular && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="absolute -top-5 start-1/2 -translate-x-1/2"
-                  >
+                  <div className="absolute -top-5 start-1/2 -translate-x-1/2">
                     <span className="inline-flex items-center gap-1.5 gradient-primary text-primary-foreground text-sm font-bold px-5 py-2 rounded-full shadow-lg">
                       <Star size={14} className="fill-current" />
                       {t.popular}
                     </span>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* Icon */}
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${
-                  isPopular
-                    ? "bg-primary/20"
-                    : "bg-muted"
+                  isPopular ? "bg-primary/20" : "bg-muted"
                 }`}>
                   <Icon size={24} className={isPopular ? "text-primary" : "text-foreground"} />
                 </div>
@@ -221,9 +216,7 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
                 </div>
 
                 {/* Yearly price */}
-                <p className={`text-sm font-medium mb-8 ${
-                  isPopular ? "text-primary" : "text-primary"
-                }`}>
+                <p className="text-sm font-medium mb-8 text-primary">
                   {t.orText} {plan.yearlyPrice} {t.currency} / {t.yearly} {t.discountNote}
                 </p>
 
@@ -231,9 +224,7 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
                 <ul className="space-y-4 mb-8 flex-1">
                   {plan.features.map((f, j) => (
                     <li key={j} className="flex items-start gap-3">
-                      <CheckCircle size={18} className={`mt-0.5 shrink-0 ${
-                        isPopular ? "text-primary" : "text-primary"
-                      }`} />
+                      <CheckCircle size={18} className="mt-0.5 shrink-0 text-primary" />
                       <span className={`text-sm ${
                         isPopular ? "text-background/80" : "text-foreground"
                       }`}>{f}</span>
@@ -241,19 +232,17 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
                   ))}
                 </ul>
 
-                {/* CTA */}
-                <motion.a
+                {/* CTA — CSS hover only */}
+                <a
                   href="#contact"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`block text-center font-bold py-4 rounded-xl transition-all duration-300 text-base ${
+                  className={`block text-center font-bold py-4 rounded-xl transition-all duration-200 text-base active:scale-95 ${
                     isPopular
-                      ? "gradient-primary text-primary-foreground shadow-lg hover:shadow-xl"
+                      ? "gradient-primary text-primary-foreground shadow-lg hover:opacity-90"
                       : "border-2 border-border text-foreground hover:border-primary hover:text-primary"
                   }`}
                 >
                   {isPopular ? t.ctaPopular : isEnterprise ? t.ctaEnterprise : t.cta}
-                </motion.a>
+                </a>
               </motion.div>
             );
           })}
@@ -264,10 +253,13 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
           className="mt-16 max-w-5xl mx-auto"
         >
           <div className="border border-border rounded-2xl p-8 bg-card">
-            <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground text-center mb-8">{t.addons_title}</h3>
+            <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground text-center mb-8">
+              {t.addons_title}
+            </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {t.addons.map((addon, i) => (
                 <div key={i} className="text-center">
@@ -278,6 +270,7 @@ const PricingSection = ({ lang }: { lang: "ar" | "en" }) => {
             </div>
           </div>
         </motion.div>
+
       </div>
     </section>
   );
