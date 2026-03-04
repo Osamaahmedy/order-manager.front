@@ -1,47 +1,79 @@
 <!doctype html>
-<html lang="ar">
-<head>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ─── Primary Meta ─────────────────────────────────────────────────── -->
+    <title>CapTured | توثيق التسليم الذكي للفروع</title>
+    <meta name="description" content="CapTured – تطبيق توثيق رسمي لتسليم الطلبات من الفروع. تصوير مباشر مع إثبات الوقت والتاريخ والموقع تلقائياً داخل كل صورة وفيديو." />
+    <meta name="keywords" content="CapTured, توثيق التسليم, تطبيق توثيق, إثبات التسليم, توثيق الطلبات, تطبيق الفروع, توثيق بالكاميرا" />
+    <meta name="author" content="CapTured" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <link rel="canonical" href="https://captured-sa.com/" />
 
-<title>CapTured | توثيق التسليم الذكي</title>
+    <!-- ─── Favicon ───────────────────────────────────────────────────────── -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-<meta name="description" content="CapTured منصة توثيق ذكية لتسليم الطلبات من الفروع باستخدام تصوير مباشر مع إثبات الوقت والتاريخ والموقع داخل الصورة." />
+    <!-- ─── Open Graph (Facebook / WhatsApp / LinkedIn) ─────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CapTured" />
+    <meta property="og:url" content="https://captured-sa.com/" />
+    <meta property="og:title" content="CapTured | توثيق التسليم الذكي للفروع" />
+    <meta property="og:description" content="تطبيق توثيق رسمي لتسليم الطلبات من الفروع. تصوير مباشر مع إثبات الوقت والتاريخ والموقع تلقائياً داخل كل صورة وفيديو." />
+    <meta property="og:image" content="https://captured-sa.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="CapTured – توثيق التسليم الذكي" />
+    <meta property="og:locale" content="ar_SA" />
 
-<meta name="keywords" content="توثيق التسليم, توثيق الطلبات, نظام توثيق, delivery proof, delivery tracking, captured app, توثيق ذكي" />
+    <!-- ─── Twitter Card ──────────────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@CapturedApp" />
+    <meta name="twitter:creator" content="@CapturedApp" />
+    <meta name="twitter:url" content="https://captured-sa.com/" />
+    <meta name="twitter:title" content="CapTured | توثيق التسليم الذكي للفروع" />
+    <meta name="twitter:description" content="تطبيق توثيق رسمي لتسليم الطلبات من الفروع. تصوير مباشر مع إثبات الوقت والتاريخ والموقع تلقائياً." />
+    <meta name="twitter:image" content="https://captured-sa.com/og-image.png" />
+    <meta name="twitter:image:alt" content="CapTured – توثيق التسليم الذكي" />
 
-<meta name="author" content="CapTured" />
+    <!-- ─── Structured Data (JSON-LD) ─────────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CapTured",
+      "url": "https://captured-sa.com",
+      "description": "تطبيق توثيق رسمي لتسليم الطلبات من الفروع، يعتمد على تصوير مباشر من الكاميرا مع إثبات الوقت والتاريخ والموقع تلقائياً داخل الصورة.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Android, iOS",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "SAR"
+      },
+      "inLanguage": "ar",
+      "image": "https://captured-sa.com/og-image.png",
+      "publisher": {
+        "@type": "Organization",
+        "name": "CapTured",
+        "url": "https://captured-sa.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://captured-sa.com/favicon.png"
+        }
+      }
+    }
+    </script>
+  </head>
 
-<meta name="robots" content="index, follow" />
-
-<link rel="canonical" href="https://captured-sa.com" />
-
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" />
-
-<meta name="theme-color" content="#0c4a63" />
-
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://captured-sa.com" />
-<meta property="og:title" content="CapTured | توثيق التسليم الذكي" />
-<meta property="og:description" content="منصة CapTured لتوثيق تسليم الطلبات باستخدام تصوير مباشر مع إثبات الوقت والتاريخ والموقع داخل الصورة." />
-<meta property="og:image" content="https://captured-sa.com/social-preview.png" />
-<meta property="og:locale" content="ar_SA" />
-
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="CapTured | توثيق التسليم الذكي" />
-<meta name="twitter:description" content="منصة CapTured لتوثيق تسليم الطلبات باستخدام تصوير مباشر مع إثبات الوقت والتاريخ والموقع داخل الصورة." />
-<meta name="twitter:image" content="https://captured-sa.com/social-preview.png" />
-
-</head>
-
-<body>
-
-<div id="root"></div>
-
-<script type="module" src="/src/main.tsx"></script>
-
-</body>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
